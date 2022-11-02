@@ -118,6 +118,7 @@ class DataPrepper:
         product_names = []
         skus = []
         query_gb = query_df.groupby("query")  # small
+        print("query df: ", query_df.shape, query_df.head(1))
         no_results = set()
         for key in query_gb.groups.keys():
             query_id, query_counter = self.__get_query_id(key, query_ids_map, query_counter)
@@ -210,7 +211,7 @@ class DataPrepper:
                                                          terms_field=terms_field)
             if ltr_feats_df is not None:
                 feature_frames.append(ltr_feats_df)
-
+            # print("@@@ ltr_feats_df",ltr_feats_df.shape)
         features_df = None
         if len(feature_frames) > 0:
             features_df = pd.concat(feature_frames)

@@ -287,7 +287,7 @@ if __name__ == "__main__":
     if args.create_xgb_training and args.impressions_file:
         print("Loading impressions from %s/%s" % (output_dir, args.impressions_file))
         impressions_df = pd.read_csv("%s/%s" % (output_dir, args.impressions_file))
-
+        print("impressions_df", impressions_df.shape)
         if impressions_df is not None:
             # We need a map of normalize types for our features.  Would be nice if we could store this on the featureset
             normalize_type_map = {}
