@@ -11,13 +11,14 @@ def create_rescore_ltr_query(user_query: str, query_obj, click_prior_query: str,
     #add on the rescore
     ##### Step 4.e:
     # print("IMPLEMENT ME: create_rescore_ltr_query")
-    query_obj['resore'] = {
+    query_obj['rescore'] = {
         "window_size" : rescore_size,
         "query": {
             "rescore_query": {
                 "sltr":{
                     "params": {
-                        "keywords": user_query
+                        "keywords": user_query,
+                        # "click_prior_query": click_prior_query,
                     },
                     "model": ltr_model_name,
                     "store": ltr_store_name,
@@ -75,7 +76,7 @@ def create_sltr_hand_tuned_query(user_query, query_obj, click_prior_query, ltr_m
 
 def create_feature_log_query(query, doc_ids, click_prior_query, featureset_name, ltr_store_name, size=200, terms_field="_id"):
     ##### Step 3.b:
-    print("IMPLEMENT ME: create_feature_log_query")
+    # print("IMPLEMENT ME: create_feature_log_query")
     query_obj = {
         'query': {
             'bool': {
