@@ -56,14 +56,31 @@ def _label_filename(filename):
               # Replace newline chars with spaces so fastText doesn't complain
               name = child.find('name').text.replace('\n', ' ')
               labels.append((cat, transform_name(name)))
+    # print(labels[0])
     return labels
 
 if __name__ == '__main__':
     files = glob.glob(f'{directory}/*.xml')
     print("Writing results to %s" % output_file)
+    label_map = []
     with multiprocessing.Pool() as p:
         all_labels = tqdm(p.imap(_label_filename, files), total=len(files))
-        with open(output_file, 'w') as output:
-            for label_list in all_labels:
-                for (cat, name) in label_list:
-                    output.write(f'__label__{cat} {name}\n')
+        print("All labels", len(all_labels))
+        #with open(output_file, 'w') as output:
+        for label_list in all_labels:
+            for (cat, name) in label_list:
+                label_map.append((cat, name))
+    print(len(label_map))
+    from collections import Counter
+    c = Counter([i[0] for i in label_map])
+    fil_l = []
+    for l,i in c.most_common():
+        if i >= 500:
+            fil_l.append(l)
+    print(len(fil_l))
+    with open(output_file, 'w') as output:
+        for k,v in label_map:
+            if k in fil_l:
+                output.write(f'__label__{k} {v}\n')
+    # import pandas as pd
+    # pd.DataFrame.from_list(label_map)
